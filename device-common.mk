@@ -16,26 +16,34 @@
 
 DEVICE_PACKAGE_OVERLAYS += \
 	device/google/gs101/overlay_common \
-	device/google/gs101/overlay_bliss
+	device/google/gs101/overlay_derp
 
 # Rescue Party
 PRODUCT_PROPERTY_OVERRIDES += \
 persist.sys.disable_rescue=true
 
+# Derpfest Official
+TARGET_GAPPS_ARCH := arm64
+IS_PHONE := true
+TARGET_SUPPORTS_GOOGLE_RECORDER := false
+DERP_BUILDTYPE := Official
 EXTRA_UDFPS_ANIMATIONS := true
-TARGET_FACE_UNLOCK_SUPPORTED := true
-BLISS_BUILDTYPE := OFFICIAL
+TARGET_SUPPORTS_QUICK_TAP := true
 
 # Boot animation
 TARGET_BOOT_ANIMATION_RES := 1440
 
+ifneq ($(BOARD_WITHOUT_RADIO),true)
 -include vendor/google_devices/gs101/proprietary/telephony/device-vendor.mk
+endif
 include device/google/gs101/device.mk
 include device/google/gs101/tts/voice_packs.mk
 
+ifneq ($(BOARD_WITHOUT_RADIO),true)
 # Telephony
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.telephony.carrierlock.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.carrierlock.xml
+endif
 
 # Android Verified Boot
 PRODUCT_COPY_FILES += \
